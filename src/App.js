@@ -18,10 +18,7 @@ class App extends Component {
     })),
   };
 
-  addColumn = _title => {
-    const title = _title.trim();
-    if (!title) return;
-
+  addColumn = title => {
     const newColumn = {
       id: ++_columnId,
       title,
@@ -32,10 +29,7 @@ class App extends Component {
     }));
   };
 
-  addCard = (columnId, _title) => {
-    const title = _title.trim();
-    if (!title) return;
-
+  addCard = (columnId, title) => {
     const newCard = {id: ++_cardId, title};
     this.setState(state => ({
       columns: state.columns.map(
@@ -54,6 +48,7 @@ class App extends Component {
         // 1) Remove the card from its current position.
         .map(column => {
           const cardIndex = column.cards.findIndex(card => card.id === cardId);
+          // If the card is not present, leave this column alone.
           if (cardIndex === -1) return column;
           _card = column.cards[cardIndex];
           return {

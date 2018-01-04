@@ -4,7 +4,11 @@ export class TextInput extends Component {
   onSubmit = event => {
     const form = event.target;
     event.preventDefault();
-    this.props.onSubmit(form.input.value);
+
+    const value = form.input.value.trim();
+    if (!value) return;
+
+    this.props.onSubmit(value);
     form.reset();
   };
 
