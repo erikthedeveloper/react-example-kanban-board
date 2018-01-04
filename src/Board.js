@@ -3,7 +3,7 @@ import {Column} from './Column';
 import {DraggableCard} from './Card';
 import {TextInput} from './TextInput';
 
-export function Board({cards, columns, moveCard, addCard, addColumn}) {
+export function Board({columns, moveCard, addCard, addColumn}) {
   return (
     <div className="Board">
       {columns.map(column => (
@@ -12,8 +12,7 @@ export function Board({cards, columns, moveCard, addCard, addColumn}) {
           title={column.title}
           addCard={addCard.bind(null, column.id)}
         >
-          {column.cardIds
-            .map(cardId => cards.find(card => card.id === cardId))
+          {column.cards
             .map((card, index) => (
               <DraggableCard
                 key={card.id}
@@ -24,7 +23,7 @@ export function Board({cards, columns, moveCard, addCard, addColumn}) {
                 moveCard={moveCard}
               />
             ))}
-          {column.cardIds.length === 0 && (
+          {column.cards.length === 0 && (
             <DraggableCard
               isSpacer
               moveCard={cardId => moveCard(cardId, column.id, 0)}
