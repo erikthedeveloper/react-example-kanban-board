@@ -1,27 +1,21 @@
 import React, {Component} from 'react';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import _ from 'lodash';
 import {Board} from './Board';
 
 let _columnId = 0;
 let _cardId = 0;
 
-const initialCards = Array.from({length: 9}).map(() => ({
-  id: ++_cardId,
-  title: `Card ${_cardId}`,
-}));
-
-const initialColumns = ['TODO', 'Doing', 'Done'].map((title, i) => ({
-  id: _columnId++,
-  title,
-  cardIds: initialCards.slice(i * 3, i * 3 + 3).map(card => card.id),
-}));
-
 class App extends Component {
   state = {
-    cards: initialCards,
-    columns: initialColumns,
+    columns: ['TODO', 'Doing', 'Done'].map((title, i) => ({
+      id: _columnId++,
+      title,
+      cards: Array.from({length: 3}).map(() => ({
+        id: ++_cardId,
+        title: `Card ${_cardId}`,
+      })),
+    })),
   };
 
   addColumn = _title => {
@@ -31,7 +25,7 @@ class App extends Component {
     const newColumn = {
       id: ++_columnId,
       title,
-      cardIds: [],
+      cards: [],
     };
     this.setState(state => ({
       columns: [...state.columns, newColumn],
@@ -44,30 +38,45 @@ class App extends Component {
 
     const newCard = {id: ++_cardId, title};
     this.setState(state => ({
-      cards: [...state.cards, newCard],
       columns: state.columns.map(
         column =>
           column.id === columnId
-            ? {...column, cardIds: [...column.cardIds, newCard.id]}
+            ? {...column, cards: [...column.cards, newCard]}
             : column
       ),
     }));
   };
 
-  moveCard = (cardId, destColumnId, index) => {
+  moveCard = (cardId, destColumnId, destIndex) => {
+    let _card;
     this.setState(state => ({
-      columns: state.columns.map(column => ({
-        ...column,
-        cardIds: _.flowRight(
-          // 2) If this is the destination column, insert the cardId.
-          ids =>
-            column.id === destColumnId
-              ? [...ids.slice(0, index), cardId, ...ids.slice(index)]
-              : ids,
-          // 1) Remove the cardId for all columns
-          ids => ids.filter(id => id !== cardId)
-        )(column.cardIds),
-      })),
+      columns: state.columns
+        // 1) Remove the card from its current position.
+        .map(column => {
+          const cardIndex = column.cards.findIndex(card => card.id === cardId);
+          if (cardIndex === -1) return column;
+          _card = column.cards[cardIndex];
+          return {
+            ...column,
+            cards: [
+              ...column.cards.slice(0, cardIndex),
+              ...column.cards.slice(cardIndex + 1),
+            ],
+          };
+        })
+        // 2) Insert the card into the destination position.
+        .map(column => {
+          return column.id !== destColumnId
+            ? column
+            : {
+                ...column,
+                cards: [
+                  ...column.cards.slice(0, destIndex),
+                  _card,
+                  ...column.cards.slice(destIndex),
+                ],
+              };
+        }),
     }));
   };
 
