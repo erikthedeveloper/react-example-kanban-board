@@ -1,7 +1,7 @@
 import React from 'react';
 import {Column} from './Column';
 import {DraggableCard} from './Card';
-import {TextForm} from './TextForm';
+import {TextInput} from './TextInput';
 
 export function Board({cards, columns, moveCard, addCard, addColumn}) {
   return (
@@ -33,7 +33,7 @@ export function Board({cards, columns, moveCard, addCard, addColumn}) {
         </Column>
       ))}
       <div className="Column">
-        <TextForm onSubmit={addColumn} placeholder="Add Column..." />
+        <TextInput onSubmit={addColumn} placeholder="Add Column..." />
       </div>
     </div>
   );

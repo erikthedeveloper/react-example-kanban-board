@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-export class TextForm extends Component {
+export class TextInput extends Component {
   onSubmit = event => {
     const form = event.target;
     event.preventDefault();
@@ -16,6 +16,7 @@ export class TextForm extends Component {
           className="TextForm__input"
           name="input"
           placeholder={this.props.placeholder}
+          autoComplete="off"
         />
       </form>
     );
