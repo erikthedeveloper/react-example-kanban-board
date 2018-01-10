@@ -43,6 +43,10 @@ export const DraggableCard = _.flowRight([
         };
       },
 
+      canDrag(props) {
+        return !props.isSpacer;
+      },
+
       isDragging(props, monitor) {
         return props.id === monitor.getItem().id;
       },

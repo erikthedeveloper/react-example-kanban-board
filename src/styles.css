@@ -32,6 +32,10 @@
   cursor: move;
 }
 
+.Card--spacer {
+  cursor: initial;
+}
+
 .Card--spacer,
 .Card--dragging {
   opacity: 0;
