@@ -6,27 +6,30 @@ import {TextInput} from './TextInput';
 export function Board({columns, moveCard, addCard, addColumn}) {
   return (
     <div className="Board">
-      {columns.map(column => (
+      {columns.map((column, x) => (
         <Column
           key={column.id}
           title={column.title}
+          // bind columnId as the 1st argument
           addCard={addCard.bind(null, column.id)}
         >
-          {column.cards
-            .map((card, index) => (
+          {column.cards.map((card, y) => {
+            return (
               <DraggableCard
                 key={card.id}
-                id={card.id}
-                columnId={column.id}
-                columnIndex={index}
                 title={card.title}
+                // Props required for drag and drop
+                id={card.id}
+                coordinates={[x, y]}
                 moveCard={moveCard}
               />
-            ))}
+            );
+          })}
           {column.cards.length === 0 && (
             <DraggableCard
               isSpacer
-              moveCard={cardId => moveCard(cardId, column.id, 0)}
+              coordinates={[x, 0]}
+              moveCard={moveCard}
             />
           )}
         </Column>
