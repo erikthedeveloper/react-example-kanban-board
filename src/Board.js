@@ -13,18 +13,16 @@ export function Board({columns, moveCard, addCard, addColumn}) {
           // bind columnId as the 1st argument
           addCard={addCard.bind(null, column.id)}
         >
-          {column.cards.map((card, y) => {
-            return (
-              <DraggableCard
-                key={card.id}
-                title={card.title}
-                // Props required for drag and drop
-                id={card.id}
-                coordinates={[x, y]}
-                moveCard={moveCard}
-              />
-            );
-          })}
+          {column.cards.map((card, y) => (
+            <DraggableCard
+              key={card.id}
+              title={card.title}
+              // Props required for drag and drop
+              id={card.id}
+              coordinates={[x, y]}
+              moveCard={moveCard}
+            />
+          ))}
           {column.cards.length === 0 && (
             <DraggableCard
               isSpacer
