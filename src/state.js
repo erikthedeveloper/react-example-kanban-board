@@ -23,7 +23,19 @@ const updateColumnCards = (columnIndex, updateCards) => ({columns}) => ({
   })
 });
 
-export const moveCard = ([curX, curY], [destX, destY]) => state => {
+const getCoordinates = (state, cardId) => {
+  let y;
+  const x = state.columns.findIndex(column => {
+    y = column.cards.findIndex(card => card.id === cardId);
+    return y !== -1;
+  });
+
+  return [x, y];
+};
+
+export const moveCard = (cardId, [destX, destY]) => state => {
+
+  const [curX, curY] = getCoordinates(state, cardId);
   // 1) Stash card so we can insert at destination
   const card = state.columns[curX].cards[curY];
 

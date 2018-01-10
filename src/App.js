@@ -15,18 +15,8 @@ class App extends Component {
     this.setState(state.addCard(columnId, title));
   };
 
-  moveCard = (curPos, nextPos) => {
-    this.setState(state.moveCard(curPos, nextPos));
-  };
-
-  getCoordinates = (cardId) => {
-    let y;
-    const x = this.state.columns.findIndex(column => {
-      y = column.cards.findIndex(card => card.id === cardId);
-      return y !== -1;
-    });
-
-    return [x, y];
+  moveCard = (cardId, [x, y]) => {
+    this.setState(state.moveCard(cardId, [x, y]));
   };
 
   render() {
@@ -34,7 +24,6 @@ class App extends Component {
       <Board
         columns={this.state.columns}
         moveCard={this.moveCard}
-        getCoordinates={this.getCoordinates}
         addCard={this.addCard}
         addColumn={this.addColumn}
       />

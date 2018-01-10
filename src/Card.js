@@ -23,10 +23,7 @@ export const DraggableCard = _.flowRight([
       hover(props, monitor) {
         const draggingItem = monitor.getItem();
         if (draggingItem.id !== props.id) {
-          props.moveCard(
-            props.getCoordinates(draggingItem.id),
-            props.getCoordinates(props.id)
-          );
+          props.moveCard(draggingItem.id, props.coordinates);
         }
       },
     },

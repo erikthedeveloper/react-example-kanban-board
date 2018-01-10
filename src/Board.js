@@ -3,7 +3,7 @@ import {Column} from './Column';
 import {DraggableCard} from './Card';
 import {TextInput} from './TextInput';
 
-export function Board({columns, moveCard, getCoordinates, addCard, addColumn}) {
+export function Board({columns, moveCard, addCard, addColumn}) {
   return (
     <div className="Board">
       {columns.map((column, x) => (
@@ -20,7 +20,7 @@ export function Board({columns, moveCard, getCoordinates, addCard, addColumn}) {
                 title={card.title}
                 // Props required for drag and drop
                 id={card.id}
-                getCoordinates={getCoordinates}
+                coordinates={[x, y]}
                 moveCard={moveCard}
               />
             );
@@ -28,8 +28,7 @@ export function Board({columns, moveCard, getCoordinates, addCard, addColumn}) {
           {column.cards.length === 0 && (
             <DraggableCard
               isSpacer
-              id={null}
-              getCoordinates={id => (id === null ? [x, 0] : getCoordinates(id))}
+              coordinates={[x, 0]}
               moveCard={moveCard}
             />
           )}
