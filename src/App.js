@@ -9,13 +9,17 @@ let _cardId = 0;
 
 class App extends Component {
   state = {
-    columns: ['TODO', 'Doing', 'Done'].map(title => ({
+    columns: [
+      ['TODO', ['Some thing', 'Another thing']],
+      ['Doing', ['A great task']],
+      ['Done', ['Completed task']],
+    ].map(([columnTitle, cardTitles]) => ({
       id: _columnId++,
-      title,
-      cards: Array.from({length: 3}).map(() => ({
+      title: columnTitle,
+      cards: cardTitles.map(cardTitle => ({
         id: ++_cardId,
-        title: `Card ${_cardId}`
-      }))
+        title: cardTitle,
+      })),
     }))
   };
 
