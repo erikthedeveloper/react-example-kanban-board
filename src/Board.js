@@ -1,15 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Column} from './Column';
 import {DraggableCard} from './Card';
 import {TextInput} from './TextInput';
 
-// 1) A map of (x, y) coordinates keyed by id
-const coordinates = {};
-// 2) Provide getter for quick id -> (x, y) lookup
-const getCoordinates = id => coordinates[id];
-
-// A Kanban Board!
-export function Board({columns, moveCard, addCard, addColumn}) {
+export function Board({columns, moveCard, getCoordinates, addCard, addColumn}) {
   return (
     <div className="Board">
       {columns.map((column, x) => (
@@ -20,10 +14,6 @@ export function Board({columns, moveCard, addCard, addColumn}) {
           addCard={addCard.bind(null, column.id)}
         >
           {column.cards.map((card, y) => {
-            // 3) By setting coordinates in render
-            // we avoid additional traversal and ensure that
-            // getCoordinates(id) will always be current
-            coordinates[card.id] = [x, y];
             return (
               <DraggableCard
                 key={card.id}
