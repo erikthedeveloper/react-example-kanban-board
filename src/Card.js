@@ -21,10 +21,12 @@ export const DraggableCard = _.flowRight([
     'Card',
     {
       hover(props, monitor) {
-        const {columnId, columnIndex} = props;
         const draggingItem = monitor.getItem();
         if (draggingItem.id !== props.id) {
-          props.moveCard(draggingItem.id, columnId, columnIndex);
+          props.moveCard(
+            props.getCoordinates(draggingItem.id),
+            props.getCoordinates(props.id)
+          );
         }
       },
     },
@@ -36,7 +38,9 @@ export const DraggableCard = _.flowRight([
     'Card',
     {
       beginDrag(props) {
-        return {id: props.id};
+        return {
+          id: props.id,
+        };
       },
 
       isDragging(props, monitor) {
